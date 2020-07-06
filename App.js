@@ -1,19 +1,33 @@
+import 'react-native-gesture-handler';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { AppLoading } from 'expo'
+import * as Font from 'expo-font'
+import { NavigationContainer } from '@react-navigation/native'
+// components
+import Drawer from './routes/Drawer'
+import HomeStack from './routes/HomeStack';
+
+const getFonts = () => Font.loadAsync({
+  'nunito': require('./assets/fonts/Nunito-Regular.ttf'),
+  'nunito-bold': require('./assets/fonts/Nunito-Bold.ttf'),
+})
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
+  const [fontsLoaded, setFontsLoaded] = React.useState(false);
+
+  if (fontsLoaded) {
+    return (
+      <NavigationContainer>
+        <Drawer />
+      </NavigationContainer>
+    )
+  } else {
+    return (
+      <AppLoading
+        startAsync={getFonts}
+        onFinish={() => setFontsLoaded(true)}
+      />
+    );
+  }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
